@@ -5,7 +5,7 @@ from model import stream_gemini_response
 
 async def on_chat_start():
     text = """
-Hey there! This is my first message
+Greetings!
 """
     await cl.Message(content=text).send()
     cl.user_session.set(
