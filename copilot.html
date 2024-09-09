@@ -5,35 +5,36 @@
         <link rel="stylesheet" href="./public/test.css" />
         <script>
             window.addEventListener("DOMContentLoaded", (event) => {
-                // Select the shadow host by its ID
-                const shadowHost = document.getElementById("chainlit-copilot");
+                // Function to handle shadow DOM manipulation
+                const handleShadowDom = () => {
+                    // Select the shadow host by its ID
+                    const shadowHost = document.getElementById("chainlit-copilot");
 
-                if (shadowHost && shadowHost.shadowRoot) {
-                    // Access the shadow DOM of the shadow host
-                    const shadowRoot1 = shadowHost.shadowRoot;
-                    console.log(shadowHost.shadowRoot);
+                    if (shadowHost && shadowHost.shadowRoot) {
+                        // Access the shadow DOM of the shadow host
+                        const shadowRoot1 = shadowHost.shadowRoot;
+                        console.log(shadowHost.shadowRoot);
 
-                    // Function to check for the button
-                    const findButton = () => {
-                        const copilotButton = shadowRoot1.querySelector(
-                            "#chainlit-copilot-button"
-                        );
+                        // Function to check for the button
+                        const findButton = () => {
+                            const copilotButton = shadowRoot1.querySelector(
+                                "#chainlit-copilot-button"
+                            );
 
-                        if (copilotButton) {
-                            console.log("Copilot button found:", copilotButton);
-                            copilotButton.style.backgroundColor = "black"; // Example: change button background color
-                            return true;
-                        } else {
-                            console.log("Copilot button not found");
-                            return false;
-                        }
-                    };
+                            if (copilotButton) {
+                                console.log("Copilot button found:", copilotButton);
+                                copilotButton.style.backgroundColor = "black"; // Example: change button background color
+                                return true;
+                            } else {
+                                console.log("Copilot button not found");
+                                return false;
+                            }
+                        };
 
-                    // Try to find the button immediately
-                    if (!findButton()) {
-                        // If not found, observe changes in the shadow DOM
-                        const observer = new MutationObserver(
-                            (mutationsList) => {
+                        // Try to find the button immediately
+                        if (!findButton()) {
+                            // If not found, observe changes in the shadow DOM
+                            const observer = new MutationObserver((mutationsList) => {
                                 for (const mutation of mutationsList) {
                                     if (
                                         mutation.type === "childList" ||
@@ -44,18 +45,21 @@
                                         }
                                     }
                                 }
-                            }
-                        );
+                            });
 
-                        // Start observing the shadow root for changes
-                        observer.observe(shadowRoot1, {
-                            childList: true,
-                            subtree: true,
-                        });
+                            // Start observing the shadow root for changes
+                            observer.observe(shadowRoot1, {
+                                childList: true,
+                                subtree: true,
+                            });
+                        }
+                    } else {
+                        console.log("Main shadow host or shadow DOM not found");
                     }
-                } else {
-                    console.log("Main shadow host or shadow DOM not found");
-                }
+                };
+
+                // Add delay in case the chatbot takes time to initialize
+                setTimeout(handleShadowDom, 2000);
             });
         </script>
     </head>
