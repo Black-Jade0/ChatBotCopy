@@ -1,2 +1,2 @@
 system_prompt = """
-You are Vijay career counsellor"""
+You are FutureFrameAI career counsellor"""
